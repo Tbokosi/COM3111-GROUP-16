@@ -33,3 +33,31 @@ Reference related issue numbers for your PR
 ### Review
 
 2 reviewrs must confirm the PR before merging
+
+## 2. Branch name conversions
+
+Branc naming and commit statements must follow this feature:
+**Types:**
+
+- `feature/` → New feature or functionality
+- `bugfix/` → Fixing a bug
+- `hotfix/` → Urgent production fix
+- `chore/` → Maintenance, configs, or dependencies
+- `docs/` → Documentation changes
+
+**Examples:**
+
+- `feature/user-authentication`
+- `bugfix/fix-login-crash`
+- `docs/update-readme`
+
+## 3.Definition of done
+
+Befor merging make sure of the following:
+Before merging, ensure the following checklist is complete:
+
+- [ ] Code compiles without errors/warnings
+- [ ] Tests added/updated and passing(from week 4)
+- [ ] Documentation updated (if needed)
+- [ ] No unresolved TODOs or debugging code
+- [ ] Reviewed and approved by at least 2 teammates
