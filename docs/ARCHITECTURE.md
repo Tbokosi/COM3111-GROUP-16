@@ -95,3 +95,59 @@ flowchart TD
     
     L --> M[PostgreSQL]
 >>>>>>> 06f4efc2f73b698defca745c2e4916bdf02608c9
+
+
+# API STABS
+
+## Authentication
+**Base endpoint:** `/app/auth`  
+
+- **POST**: `/register`  
+- **POST**: `/login`  
+- **POST**: `/logout`  
+- **GET**: `/profile`  
+- **PUT**: `/profile`  
+- **PUT**: `/password`  
+- **DELETE**: `/profile`  
+
+---
+
+## Inventory Service
+**Base endpoint:** `/app/products`  
+
+- **GET**: `/` – all products  
+- **GET**: `/search?query` – search products by name  
+- **GET**: `/categories`  
+- **GET**: `/productID`  
+- **POST**: `/`  
+- **PUT**: `/productID`  
+- **DELETE**: `/productID`  
+
+---
+
+## Order Service
+**Base endpoint:** `/app/orders`  
+
+- **POST**: `/ {cartID, paymentMethod}`  
+- **GET**: `/:orderID`  
+- **GET**: `/user/:userID`  
+- **PUT**: `/:orderID/cancel`  
+- **PUT**: `/:orderID/status`  
+
+---
+
+## Payment Service
+**Base endpoint:** `/app/payments`  
+
+- **POST**: `/initiate`  
+- **POST**: `/callback`  
+- **GET**: `/:paymentID`  
+- **POST**: `/refund`  
+
+---
+
+## Cloud Service
+**Base endpoint:** `/app/media`  
+
+- **POST**: `/upload`  
+- **DELETE**: `/mediaID`
