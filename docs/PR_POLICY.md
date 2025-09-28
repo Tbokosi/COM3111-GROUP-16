@@ -61,3 +61,8 @@ Before merging, ensure the following checklist is complete:
 - [ ] Documentation updated (if needed)
 - [ ] No unresolved TODOs or debugging code
 - [ ] Reviewed and approved by at least 2 teammates
+
+## 4.Commit
+
+Make sure you commit changes to your files only
+Do not push to main before aproved preview

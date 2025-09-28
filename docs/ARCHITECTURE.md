@@ -1,6 +1,5 @@
-<<<<<<< HEAD
- 
 =======
+
 # Data Models
 
 ## User
@@ -68,86 +67,96 @@
 - **transaction_date**: DATE
 - **masked_card_details**: VARCHAR(50)
 
-
 ## ARCHITECTURE
 
-flowchart TD
     A[Web Browser] --> B[Front-end]
-    
+
     B --> C[Client]
     B --> D[Admin/Inventory]
-    
+
     C --> E[REST APIs]
     D --> E
-    
+
     E --> F[Back-end]
-    
+
     F --> G[Authentication]
     F --> H[Payment Service]
     F --> I[Cloud Service]
     F --> J[Images Service]
-    
+
     H --> K[Payment Gateway]
-    
+
     I --> L[Database]
     J --> L
     F --> L
-    
-    L --> M[PostgreSQL]
->>>>>>> 06f4efc2f73b698defca745c2e4916bdf02608c9
 
+    L --> M[PostgreSQL]
+
+> > > > > > > 06f4efc2f73b698defca745c2e4916bdf02608c9
 
 # API STABS
 
 ## Authentication
-**Base endpoint:** `/app/auth`  
 
-- **POST**: `/register`  
-- **POST**: `/login`  
-- **POST**: `/logout`  
-- **GET**: `/profile`  
-- **PUT**: `/profile`  
-- **PUT**: `/password`  
-- **DELETE**: `/profile`  
+**Base endpoint:** `/app/auth`
+
+- **POST**: `/register`
+- **POST**: `/login`
+- **POST**: `/logout`
+- **GET**: `/profile`
+- **PUT**: `/profile`
+- **PUT**: `/password`
+- **DELETE**: `/profile`
 
 ---
 
 ## Inventory Service
-**Base endpoint:** `/app/products`  
 
-- **GET**: `/` – all products  
-- **GET**: `/search?query` – search products by name  
-- **GET**: `/categories`  
-- **GET**: `/productID`  
-- **POST**: `/`  
-- **PUT**: `/productID`  
-- **DELETE**: `/productID`  
+**Base endpoint:** `/app/products`
+
+- **GET**: `/` – all products
+- **GET**: `/search?query` – search products by name
+- **GET**: `/categories`
+- **GET**: `/productID`
+- **POST**: `/`
+- **PUT**: `/productID`
+- **DELETE**: `/productID`
 
 ---
 
 ## Order Service
-**Base endpoint:** `/app/orders`  
 
-- **POST**: `/ {cartID, paymentMethod}`  
-- **GET**: `/:orderID`  
-- **GET**: `/user/:userID`  
-- **PUT**: `/:orderID/cancel`  
-- **PUT**: `/:orderID/status`  
+**Base endpoint:** `/app/orders`
+
+- **POST**: `/ {cartID, paymentMethod}`
+- **GET**: `/:orderID`
+- **GET**: `/user/:userID`
+- **PUT**: `/:orderID/cancel`
+- **PUT**: `/:orderID/status`
 
 ---
 
 ## Payment Service
-**Base endpoint:** `/app/payments`  
 
-- **POST**: `/initiate`  
-- **POST**: `/callback`  
-- **GET**: `/:paymentID`  
-- **POST**: `/refund`  
+**Base endpoint:** `/app/payments`
+
+- **POST**: `/initiate`
+- **POST**: `/callback`
+- **GET**: `/:paymentID`
+- **POST**: `/refund`
 
 ---
 
 ## Cloud Service
-**Base endpoint:** `/app/media`  
 
-- **POST**: `/upload`  
+**Base endpoint:** `/app/media`
+
+- **POST**: `/upload`
 - **DELETE**: `/mediaID`
+
+## Components (Actors)
+
+- Customer / Buyer
+- Admin / Store Owner
+- Payment Gateway / Payment Service (e.g., PayPal, Mobile Money, Stripe)
+- Notification Service (Email/SMS/Push Sender)
