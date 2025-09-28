@@ -64,3 +64,30 @@
 - **transaction_status**: VARCHAR(5)
 - **transaction_date**: DATE
 - **masked_card_details**: VARCHAR(50)
+
+
+## ARCHITECTURE
+
+flowchart TD
+    A[Web Browser] --> B[Front-end]
+    
+    B --> C[Client]
+    B --> D[Admin/Inventory]
+    
+    C --> E[REST APIs]
+    D --> E
+    
+    E --> F[Back-end]
+    
+    F --> G[Authentication]
+    F --> H[Payment Service]
+    F --> I[Cloud Service]
+    F --> J[Images Service]
+    
+    H --> K[Payment Gateway]
+    
+    I --> L[Database]
+    J --> L
+    F --> L
+    
+    L --> M[PostgreSQL]
