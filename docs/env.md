@@ -1,0 +1,5 @@
+# Env contents
+DATABASE_URL="postgresql://group16:6167053@localhost:5432/techcorner?schema=public"
+
+
+PORT=3000
