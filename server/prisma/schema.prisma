@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -13,57 +10,74 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User{
-  id Int @id @default(autoincrement())
-  username String @unique
-  email @unique
-  password_hash String
-  usertype String
-  created_at DateTime @default(now())
-  cart_item cart_items[]
-  orders order[]
+
+model User {
+  ID           Int        @id @default(autoincrement())
+  userName     String     @unique
+  email        String     @unique
+  passwordHash String
+  userType     String
+  createdAt    DateTime   @default(now())
+  cartItems    CartItem[]
+  orders       Order[]
 }
-model product{
-  product_id Int @id @default(autoincrement())
-  name String 
-  brand String
+
+model Product {
+  ID          Int         @id @default(autoincrement())
+  name        String
+  brand       String
   description String
-  base_price Int
-  category_id Int
-  images_urls String
-  cart_items cart_item[]
-  order_items order_item[]
+  basePrice   Int
+  categoryID  Int
+  imageUrls   String
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
 }
-model cart-item{
-  cart_item_id Int
-  user-id user @relation(fields: [user_id], references: [id])
-  cart_product_id product @relation(fields: [cart_product_id], references[product_id])
-  quantity Int
+
+model CartItem {
+  ID        Int     @id @default(autoincrement())
+  userID    Int
+  productID Int
+  quantity  Int
+
+  user    User    @relation(fields: [userID], references: [ID])
+  product Product @relation(fields: [productID], references: [ID])
 }
-model order_item{
-  order_item_id Int
-  order_id Int
-  order_item_product_id product @references(fields: [order_item_product_id], references[product_id])
-  quantity Int
-  Unit_price_at_purchase Decimal
+
+model OrderItem {
+  ID               Int      @id @default(autoincrement())
+  orderID          Int
+  productID        Int
+  quantity         Int
+  unitPriceAtOrder Decimal
+
+  order   Order   @relation(fields: [orderID], references: [ID])
+  product Product @relation(fields: [productID], references: [ID])
 }
-model order{
-  order_id Int
-  user_id user @relation(fields: [user_id], references: [id])
-  order_date DateTime @default(now())
-  total_amount Decimal
-  shipping_address_id String
-  order_status String
-  payment_id Int
-  payments payment[]
+
+model Order {
+  ID               Int        @id @default(autoincrement())
+  userID           Int
+  orderDate        DateTime   @default(now())
+  totalAmount      Decimal
+  shippingAddress  String
+  orderStatus      String
+  paymentID        Int?
+  
+  user       User       @relation(fields: [userID], references: [ID])
+  orderItems OrderItem[]
+  payments   Payment[]
 }
-model payments{
-  payment id Int
-  payments_order_id order @relation(fields: [payments_order_id], references: [order_id])
-  transaction_amount Decimal
-  payment_method String
-  gateway_transaction_id Int
-  transaction_status String
-  transaction_date DateTime @default(now())
-  masked_card_details String
+
+model Payment {
+  ID                   Int      @id @default(autoincrement())
+  orderID              Int
+  transactionAmount    Decimal
+  paymentMethod        String
+  gatewayTransactionID Int
+  transactionStatus    String
+  transactionDate      DateTime @default(now())
+  maskedCardDetails    String
+
+  order Order @relation(fields: [orderID], references: [ID])
 }
