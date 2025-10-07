@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -12,4 +9,75 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  ID           Int        @id @default(autoincrement())
+  userName     String     @unique
+  email        String     @unique
+  passwordHash String
+  userType     String
+  createdAt    DateTime   @default(now())
+  cartItems    CartItem[]
+  orders       Order[]
+}
+
+model Product {
+  ID          Int         @id @default(autoincrement())
+  name        String
+  brand       String
+  description String
+  basePrice   Int
+  categoryID  Int
+  imageUrls   String
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+}
+
+model CartItem {
+  ID        Int     @id @default(autoincrement())
+  userID    Int
+  productID Int
+  quantity  Int
+
+  user    User    @relation(fields: [userID], references: [ID])
+  product Product @relation(fields: [productID], references: [ID])
+}
+
+model OrderItem {
+  ID               Int      @id @default(autoincrement())
+  orderID          Int
+  productID        Int
+  quantity         Int
+  unitPriceAtOrder Decimal
+
+  order   Order   @relation(fields: [orderID], references: [ID])
+  product Product @relation(fields: [productID], references: [ID])
+}
+
+model Order {
+  ID               Int        @id @default(autoincrement())
+  userID           Int
+  orderDate        DateTime   @default(now())
+  totalAmount      Decimal
+  shippingAddress  String
+  orderStatus      String
+  paymentID        Int?
+  
+  user       User       @relation(fields: [userID], references: [ID])
+  orderItems OrderItem[]
+  payments   Payment[]
+}
+
+model Payment {
+  ID                   Int      @id @default(autoincrement())
+  orderID              Int
+  transactionAmount    Decimal
+  paymentMethod        String
+  gatewayTransactionID Int
+  transactionStatus    String
+  transactionDate      DateTime @default(now())
+  maskedCardDetails    String
+
+  order Order @relation(fields: [orderID], references: [ID])
 }
