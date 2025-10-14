@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { createCartItem, getAllCartItems, getCartItemById, getCartItemForUser } = require("../queries/cartItemQuerries");
 const AppError = require("../utils/AppError");
 
-const createCaltItemController = asyncHandler(async(req, res, next)=>{
+const createCartItemController = asyncHandler(async(req, res, next)=>{
     const cartItem = await createCartItem(req.body);
     if(!cartItem){
         return next(new AppError("Failed to add item to cart", 500))
@@ -14,7 +14,7 @@ const createCaltItemController = asyncHandler(async(req, res, next)=>{
     })
 })
 
-const getAllCartItemsCOntroller = asyncHandler(async(req, res, next)=>{
+const getAllCartItemsController = asyncHandler(async(req, res, next)=>{
     const cartItems = await getAllCartItems();
 
     if(!cartItems){
@@ -55,5 +55,5 @@ const getCartItemsForUserController = asyncHandler(async(req, res, next)=>{
 })
 
 module.exports = {
-    createCaltItemController, getAllCartItemsCOntroller, getCartItemsForUserController, getCartItemByIDController
+    createCartItemController, getAllCartItemsController, getCartItemsForUserController, getCartItemByIDController
 }

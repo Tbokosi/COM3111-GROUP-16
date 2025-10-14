@@ -2,6 +2,9 @@ const express = require("express");
 const userRoute = require("./routes/userRoutes");
 const AppError = require("./utils/AppError");
 const errorHandler = require("./controllers/errorController");
+const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const productRoute = require("./routes/productRoute");
 
 
 const app = express();
@@ -17,7 +20,9 @@ app.get("/api", (req, res)=>{
 })
 
 app.use("/api/users", userRoute);
-
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes)
+app.use("/api/products", productRoute)
 app.use((req,res, next)=>{
     next (new AppError("Requested route not found", 404))
 })
