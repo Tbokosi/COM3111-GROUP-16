@@ -13,3 +13,5 @@ const getAllProductsController = asyncHandler(async(req, res, next)=>{
 const getProductByCategoryIdController = asyncHandler(async(req, res, next)=>{
 
 })
+
+module.exports = {createProductController, getProductByCategoryIdController, getAllProductsController, getProductByIdController}
