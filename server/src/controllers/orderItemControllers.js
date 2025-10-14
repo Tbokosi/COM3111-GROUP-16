@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const {orderItemControllers} = require("../queries/orderItemQueries");
-const AppError = require("../utils/appError");
+const AppError = require("../utils/AppError");
 
 const createOrderItem = asyncHandler = async (req, res, next)=>{
     const orderItem = await createOrderItem(req.body);
@@ -36,7 +36,7 @@ const getOrderItemById = asyncHandler = async (req, res, next) => {
     };
 
 const getOrderItemsForUser = asyncHandler = async (req, res, next) =>{
-    const {id} = parseInt(req.params.getOrderItemsForUser);
+    const id = parseInt(req.params.userID);
     const OrderItemsForUser= await getOrderItemsForUser(id);
     if (!OrderItemsForUser){
         return next(new AppError("No order with the specified user id", 404))
