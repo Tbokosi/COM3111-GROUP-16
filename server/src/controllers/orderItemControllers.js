@@ -47,3 +47,5 @@ const getOrderItemsForUser = asyncHandler = async (req, res, next) =>{
         data: orderItemsForUser,
     });
 };
+
+module.export ={createOrderItem, getAllOrderItems, getOrderItemById, getOrderItemsForUser}
