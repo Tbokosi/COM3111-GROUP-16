@@ -25,13 +25,13 @@ const deleteOrderItem = id =>{
         }
     })
 }
-// const getOrderItemsForUser = id =>{
-//     return prisma.orderItem.findUnique({
-//         where:{
-//             userID: id
-//         }
-//     })
-// }
+ const getOrderItemsForUser = id =>{
+     return prisma.orderItem.findUnique({
+         where:{
+             userID: id
+         }
+     })
+ }
 
 module.exports = {
     createOrderItem,
