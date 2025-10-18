@@ -5,6 +5,7 @@ const errorHandler = require("./controllers/errorController");
 const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const productRoute = require("./routes/productRoute");
+const cors = require ("cors")
 
 
 const app = express();
@@ -12,6 +13,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+app.use(cors())
 
 app.use(express.urlencoded({ extended: true }));
 

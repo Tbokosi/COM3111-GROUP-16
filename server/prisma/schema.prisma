@@ -30,6 +30,7 @@ model Product {
   basePrice   Int
   categoryID  Int
   imageUrls   String
+  remaining  Int
   cartItems   CartItem[]
   orderItems  OrderItem[]
 }
