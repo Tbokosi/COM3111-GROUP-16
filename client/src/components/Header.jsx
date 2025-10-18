@@ -8,8 +8,10 @@ return (
         <nav>
             <ul className=" flex gap-2">
                 <li><a href="/HomePage">Home</a></li>
-                <li><a href="ProductsPage">Products</a></li>
-                <li><a href="CartPage">Cart</a></li>
+                <li><a href="/ProductsPage">Products</a></li>
+                <li><a href="/CartPage">Cart</a></li>
+                <li><a href="/ProfilePage">Profile</a></li>
+                <li><a href="SignUpPage">Sign-Up</a></li>
             </ul>
         </nav>
     </div>
