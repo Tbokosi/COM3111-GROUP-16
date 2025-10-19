@@ -1,16 +1,19 @@
+export const fetchF = async (url, options = {}) => {
+  const token = localStorage.getItem("accessToken");
 
-const BASE_URL = "http://localhost:3000/api/";
-export const fetchF = async (url, options = {})=>{
+  const fetchOptions = {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  };
 
-    const fetchOptions = {
-        ...options,
-        headers :{
-            ...options.headers,
-        },
-        // credentials: "include"
-    }
-    let res = await fetch(`${BASE_URL}${url}`, fetchOptions);
-    let data = await res.json()
-
-    return data;
-}
+  const res = await fetch(`http://localhost:3000/api/${url}`, fetchOptions);
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "API error");
+  }
+  return res.json();
+};

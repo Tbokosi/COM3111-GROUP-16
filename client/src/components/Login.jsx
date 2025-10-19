@@ -1,26 +1,51 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchF } from "../utils/fetch";
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(e) {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-
+    setError("");
+    
     if (!formData.email || !formData.password) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
 
-    alert("Login successful!");
+    setLoading(true);
+    try {
+      const res = await fetchF("auth/login", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (res.accessToken) {
+        // Store token and user info
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("user", JSON.stringify(res.user));
+
+        // Redirect to homepage
+        navigate("/HomePage");
+      } else {
+        setError(res.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -31,13 +56,14 @@ function Login() {
       >
         <h2 className="text-xl font-bold mb-5">LOG IN</h2>
 
+        {error && <p className="text-red-500 mb-3">{error}</p>}
+
         <input
           type="email"
           id="email"
           placeholder="ENTER EMAIL"
           value={formData.email}
           onChange={handleChange}
-          required
           className="w-full p-3 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
         />
 
@@ -47,15 +73,17 @@ function Login() {
           placeholder="ENTER PASSWORD"
           value={formData.password}
           onChange={handleChange}
-          required
           className="w-full p-3 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
         />
 
         <button
           type="submit"
-          className="w-full p-3 bg-gray-700 text-black rounded-md cursor-pointer mt-2 hover:bg-gray-800 transition font-bold"
+          disabled={loading}
+          className={`w-full p-3 rounded-md cursor-pointer mt-2 font-bold text-white transition ${
+            loading ? "bg-gray-500" : "bg-gray-700 hover:bg-gray-800"
+          }`}
         >
-          LOG IN
+          {loading ? "Logging in..." : "LOG IN"}
         </button>
 
         <p className="block mt-4 text-sm text-gray-600">

@@ -1,34 +1,55 @@
-import './App.css'
+import React from "react";
 
-const Vasco=()=>{
-  return(
-    <footer className = "bg-gray-500 text-white flex flex-col md:flex-row justify-around items-start md:items-center gap-6" >
-      <div> 
-        <h1 className="font-bold text-lg text-gray-800 mb-2 mt-[1rem]">USEFUL LINKS</h1>
-      <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Contacts</a></li>
-        <li><a href="">About</a></li>
+const Vasco = () => {
+  return (
+    <footer className="bg-gray-100 text-gray-800 py-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-6 px-4">
+        {/* Useful Links */}
+        <div>
+          <h2 className="font-bold text-lg mb-2">USEFUL LINKS</h2>
+          <ul className="space-y-1">
+            <li><a href="/HomePage" className="hover:text-blue-600">Home</a></li>
+            <li><a href="/Contacts" className="hover:text-blue-600">Contacts</a></li>
+            <li><a href="/About" className="hover:text-blue-600">About</a></li>
+          </ul>
+        </div>
 
-      </ul>
+        {/* Newsletter */}
+        <div>
+          <h2 className="font-bold text-lg mb-2">NEWSLETTER</h2>
+          <form className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              required
+              className="border border-gray-400 rounded-2xl p-2 flex-1"
+            />
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-2xl hover:bg-blue-700 transition"
+            >
+              SUBSCRIBE
+            </button>
+          </form>
+          <p className="mt-2 text-sm text-gray-500">The only trusted tech company</p>
+        </div>
 
+        {/* Contacts */}
+        <div>
+          <h2 className="font-bold text-lg mb-2">CONTACTS</h2>
+          <ul className="space-y-1 text-sm">
+            <li>CALL: (+265) 991 690 867</li>
+            <li>EMAIL: tech-corner@gmail.com</li>
+            <li>LOCATION: Zomba, Malawi</li>
+          </ul>
+        </div>
       </div>
-      <div>
-      <h1 className = "font-bold text-gray-800 mb-3 mr-3">NEWSLETTERS</h1>
-      <input type="email" placeholder='  enter your email' required className = "border-1 border-gray-700 h-8 w-100 rounded-2xl mr-[1.3rem]" />
-      <button className = "bg-[#fff] text-[#000] p-[6px] h-8 rounded-2xl" type='submit'>SUBSCRIBE</button>
-      <h1>The only trusted tech company</h1>
 
-      </div>
-      <div className="mt-7"><h1 className = "font-bold text-gray-800 mb-3">CONTACTS</h1>
-      <ul>
-        <li><a href=""></a>CALL    : (+265) 991 690 867</li>
-        <li><a href=""></a>EMAIL   : tech-corner@gmail.com</li>
-        <li><a href=""></a>LOCATION: Zomba(malawi)</li>
-      </ul>
+      <div className="text-center mt-6 text-gray-500 text-sm">
+        &copy; {new Date().getFullYear()} Tech-Corner. All rights reserved.
       </div>
     </footer>
-   
-  )
-}
+  );
+};
+
 export default Vasco;

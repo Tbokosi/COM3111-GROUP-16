@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -16,16 +17,19 @@ function SignUp() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!formData.email || !formData.password || !formData.confirmPassword) {
+    const { userName, email, password, confirmPassword } = formData;
+
+    if (!userName || !email || !password || !confirmPassword) {
       alert("Please fill in all fields.");
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
+    // Here you would send data to your backend API
     alert("Account created successfully!");
   }
 
@@ -36,6 +40,16 @@ function SignUp() {
         className="bg-white p-10 rounded-lg shadow-md w-full max-w-sm text-center"
       >
         <h2 className="text-xl font-bold mb-5">SIGN UP</h2>
+
+        <input
+          type="text"
+          id="userName"
+          placeholder="USERNAME"
+          value={formData.userName}
+          onChange={handleChange}
+          required
+          className="w-full p-3 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+        />
 
         <input
           type="email"

@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const userRoute = require("./routes/userRoutes");
 const AppError = require("./utils/AppError");
@@ -10,7 +11,7 @@ const morgan = require("morgan");
 const passport = require ("./utils/passport")
 const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/authRoute");
-// const paymentRoutes = require("./routes/payments");
+const paymentRoutes = require("./routes/payments");
 
 
 const app = express();
@@ -34,7 +35,7 @@ app.use("/api/users", userRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes)
 app.use("/api/products", productRoute)
-// app.use("/api/payments", paymentRoutes)
+app.use("/api/payments", paymentRoutes)
 app.use((req,res, next)=>{
     next (new AppError("Requested route not found", 404))
 })

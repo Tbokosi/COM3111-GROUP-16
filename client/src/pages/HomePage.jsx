@@ -1,5 +1,5 @@
 import { Header } from "../components/Header"
-import homePic from "../assets/homePic.jpeg"
+
 import background from "../assets/background.jpeg"
 import img1 from "../assets/img1.jpeg";
 import img2 from "../assets/img2.jpeg";
@@ -9,7 +9,7 @@ import img5 from "../assets/img5.jpeg";
 import img6 from "../assets/img6.jpeg";
 import PictureFrame from "../components/PictureFrame";
 
-export const HomePage = ()=>{
+const HomePage = ()=>{
     const images = [img1, img2, img3, img4, img5, img6];
 
     return(
@@ -29,3 +29,5 @@ export const HomePage = ()=>{
         </div>
     )
 }
+
+export default HomePage

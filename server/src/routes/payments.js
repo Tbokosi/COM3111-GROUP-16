@@ -1,8 +1,13 @@
 const express = require("express");
-const { testPayment } = require("../controllers/paymentController");
+const passport = require("../utils/passport");
+const { initializePayment, handleWebhook } = require("../controllers/paymentController");
 
 const paymentRoutes = express.Router();
 
-paymentRoutes.use("/", testPayment);
+// Authenticated route for initializing payment
+paymentRoutes.post("/create-payment-link",  initializePayment);
+
+// Webhook endpoint (no auth, but you should verify signature)
+paymentRoutes.post("/webhook", handleWebhook);
 
 module.exports = paymentRoutes;

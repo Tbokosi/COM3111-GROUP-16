@@ -2,72 +2,80 @@ import React, { useState, useEffect } from "react";
 import { fetchF } from "../utils/fetch";
 import { Header } from "../components/Header";
 
-const CartPage = ({ userId = 2 }) => {
+const CartPage = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.ID;
+
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
 
-  // Fetch cart items for a given user
+  // Fetch cart items
   useEffect(() => {
     const getCartItems = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchF(`cart/user/${userId}`, {
-          method: "GET",
-        });
-        console.log(data);
-        setCartItems(data?.data || []); // backend returns { status, data }
+        const data = await fetchF(`cart/user/${userId}`, { method: "GET" });
+        setCartItems(data?.data || []);
       } catch (err) {
-        setError("Failed to load cart items.");
+        setError(err.message || "Failed to load cart items.");
       } finally {
         setLoading(false);
       }
     };
 
-    getCartItems();
+    if (userId) getCartItems();
   }, [userId]);
 
-  // Calculate total based on product.basePrice
+  // Calculate total
   const total = cartItems.reduce(
     (sum, item) => sum + (item.product?.basePrice || 0) * (item.quantity || 0),
     0
   );
 
-  const handleShopNow = () => {
-    alert("Proceeding to checkout...");
+  // Initialize PayChangu payment
+  const handleCheckout = async () => {
+    if (!cartItems.length) return alert("Your cart is empty.");
+    setProcessing(true);
+
+    try {
+      const data = await fetchF("payments/create-payment-link", {
+        method: "POST",
+        body: JSON.stringify({ userId, cartItems, total }),
+      });
+
+      if (data?.paymentLink) {
+        window.location.href = data.paymentLink; // redirect to PayChangu
+      } else {
+        alert(data?.message || "Failed to create payment link.");
+      }
+    } catch (err) {
+      alert(err.message || "Payment initialization failed.");
+    } finally {
+      setProcessing(false);
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-600">
-        Loading your cart...
-      </div>
-    );
-  }
-
-  if (error) {
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading your cart...</div>;
+  if (error)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-red-600">
         <p>{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-        >
+        <button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
           Retry
         </button>
       </div>
     );
-  }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
-      {/* Header Component */}
+    <div className="min-h-screen bg-gray-50 flex flex-col  w-full">
       <Header />
 
-      <h1 className="text-3xl font-semibold mb-6 mt-4">Your Cart</h1>
+      <h1 className="text-3xl text-center font-semibold mb-6 mt-4">Your Cart</h1>
 
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-6">
+      <div className="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-6">
         {cartItems.length === 0 ? (
           <p className="text-gray-500 text-center">Your cart is empty.</p>
         ) : (
@@ -82,18 +90,11 @@ const CartPage = ({ userId = 2 }) => {
             </thead>
             <tbody>
               {cartItems.map((item) => (
-                <tr
-                  key={item.ID}
-                  className="border-b last:border-0 hover:bg-gray-50"
-                >
+                <tr key={item.ID} className="border-b last:border-0 hover:bg-gray-50">
                   <td className="py-3 px-4">{item.product?.name}</td>
-                  <td className="py-3 px-4">
-                    ${item.product?.basePrice?.toFixed(2) || "0.00"}
-                  </td>
+                  <td className="py-3 px-4">${item.product?.basePrice?.toFixed(2)}</td>
                   <td className="py-3 px-4">{item.quantity}</td>
-                  <td className="py-3 px-4 font-medium">
-                    ${((item.product?.basePrice || 0) * (item.quantity || 0)).toFixed(2)}
-                  </td>
+                  <td className="py-3 px-4 font-medium">${((item.product?.basePrice || 0) * (item.quantity || 0)).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -101,15 +102,14 @@ const CartPage = ({ userId = 2 }) => {
         )}
 
         {cartItems.length > 0 && (
-          <div className="mt-6 flex justify-between items-center">
-            <h2 className="text-xl font-semibold">
-              Total: ${total.toFixed(2)}
-            </h2>
+          <div className="mt-6 flex flex-col md:flex-row justify-between items-center">
+            <h2 className="text-xl font-semibold">Total: ${total.toFixed(2)}</h2>
             <button
-              onClick={handleShopNow}
-              className="!bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-md transition-all"
+              onClick={handleCheckout}
+              disabled={processing}
+              className={`mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-md font-bold transition-all ${processing ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Shop Now
+              {processing ? "Processing..." : "Checkout"}
             </button>
           </div>
         )}
