@@ -7,7 +7,7 @@ const userRoute = express.Router();
 
 userRoute.get("/", getAllUsersController);
 userRoute.get("/:userID", getUserByIdController);
-userRoute.post("/register",createUserController );
+
 userRoute.get("/:userID/orders",getOrdersForUserController);
 userRoute.get("/:userID/cart", getCartItemsForUserController);
 

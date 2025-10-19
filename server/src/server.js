@@ -6,7 +6,10 @@ const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const productRoute = require("./routes/productRoute");
 const cors = require ("cors");
-const morgan = require("morgan")
+const morgan = require("morgan");
+const passport = require ("./utils/passport")
+const cookieParser = require("cookie-parser");
+const authRoute = require("./routes/authRoute");
 // const paymentRoutes = require("./routes/payments");
 
 
@@ -14,16 +17,19 @@ const app = express();
 
 
 const PORT = process.env.PORT || 3000;
+app.use(passport.initialize());
 app.use(express.json());
-app.use(cors())
-
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"))
 
-app.get("/api", (req, res)=>{
-    res.send("Listening on port: " +   PORT)
-})
-
+app.use("/api/auth", authRoute)
 app.use("/api/users", userRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes)

@@ -20,13 +20,13 @@ async function main() {
       {
         userName: "john_doe",
         email: "john@example.com",
-        passwordHash: "hashed_password_123",
+        password: "hashed_password_123",
         userType: "customer",
       },
       {
         userName: "admin_user",
         email: "admin@example.com",
-        passwordHash: "hashed_password_admin",
+        password: "hashed_password_admin",
         userType: "admin",
       },
     ],

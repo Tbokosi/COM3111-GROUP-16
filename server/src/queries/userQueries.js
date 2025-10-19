@@ -17,9 +17,15 @@ const createUser = (userData) => {
         data:userData
     })
 }
+const getUserByEmail = (email) => {
+  return prisma.user.findUnique({
+    where: { email },
+  });
+};
 
 module.exports = {
     getAllUsers,
     getUserById,
     createUser,
+    getUserByEmail
 }

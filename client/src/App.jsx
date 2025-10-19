@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import {  ProductComponent } from './components/Product'
-import { Products } from './pages/Products'
+
 import CartPage from './pages/Cart'
 import ProductsPage from './pages/ProductsPage'
+import { HomePage } from './pages/HomePage'
 
 
 function App() {
    return (
     <>
-<ProductsPage></ProductsPage>
+<HomePage></HomePage>
     </>
    
  
