@@ -3,13 +3,22 @@ import { useState } from 'react'
 
 import CartPage from './pages/Cart'
 import ProductsPage from './pages/ProductsPage'
+<<<<<<< HEAD
 import { HomePage } from './pages/HomePage'
 
+=======
+import {Footer} from './components/Footer'
+>>>>>>> origin/makawa-lesheck
 
 function App() {
    return (
     <>
+<<<<<<< HEAD
 <HomePage></HomePage>
+=======
+<ProductsPage></ProductsPage>
+
+>>>>>>> origin/makawa-lesheck
     </>
    
  
