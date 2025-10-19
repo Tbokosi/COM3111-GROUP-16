@@ -30,10 +30,11 @@ const loginController = asyncHandler(async (req, res, next) => {
       return res.status(400).json({
         status: "Fail",
         message: inf ? inf.message : "Failed login",
-        err
+        err,
+        user
       });
     }
-    const payLoad = { id: user.id, email: user.email };
+    const payLoad = { id: user.ID, email: user.email };
     const accessToken = jwt.sign(payLoad, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });

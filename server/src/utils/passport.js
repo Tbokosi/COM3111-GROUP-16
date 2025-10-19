@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
-const { getUserByEmail, getUser } = require("../queries/userQueries");
+const { getUserByEmail,  getUserById } = require("../queries/userQueries");
 
 passport.use(
   new LocalStrategy(
@@ -13,13 +13,16 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await getUserByEmail(email);
+        console.log("user matched: ", user)
         if (!user) {
           return done(null, false, { message: "Invalid email" });
         }
         const match = await bcrypt.compare(password, user.password);
+        console.log("password match :", match)
         if (!match) {
           return done(null, false, { message: "Incorrect password" });
         }
+        
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -40,7 +43,7 @@ const jwtOptions = {
 passport.use(
   new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
     try {
-      const user = await getUser(jwt_payload.id);
+      const user = await getUserById(jwt_payload.id);
       if (user) {
         return done(null, user);
       } else {
