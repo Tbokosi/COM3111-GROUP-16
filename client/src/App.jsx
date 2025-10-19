@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import {  ProductComponent } from './components/Product'
-import { Products } from './pages/Products'
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 function App() {
-   return (
-    <>
-    <Products></Products>
-    </>
-   
- 
-   )
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
