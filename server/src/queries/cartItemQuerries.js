@@ -19,13 +19,13 @@ const getAllCartItems = ()=>{
     return prisma.cartItem.findMany()
 }
 
-const getCartItemForUser = (id)=>{
-    return prisma.cartItem.findUnique({
-        where:{
-            userID: id
-        }
-    })
-}
+const getCartItemForUser = (userID) => {
+  return prisma.cartItem.findMany({
+    where: { userID: parseInt(userID, 10) },
+    include: { product: true }, // optional, include product info
+  });
+};
+
 
 const deleteCartItem = id =>{
     return prisma.cartItem.delete({

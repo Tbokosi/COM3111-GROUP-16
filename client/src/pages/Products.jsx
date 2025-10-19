@@ -20,7 +20,7 @@ export const Products = () =>{
      fetchProducts()
      .then((res)=> setProducts(res.data))
      .catch((err)=> {
-        console.log(err)
+       
         setError(err.message)
      })
      .finally(setLoading(false))

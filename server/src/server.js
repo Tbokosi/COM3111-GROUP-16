@@ -5,7 +5,9 @@ const errorHandler = require("./controllers/errorController");
 const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const productRoute = require("./routes/productRoute");
-const cors = require ("cors")
+const cors = require ("cors");
+const morgan = require("morgan")
+// const paymentRoutes = require("./routes/payments");
 
 
 const app = express();
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(cors())
 
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"))
 
 app.get("/api", (req, res)=>{
     res.send("Listening on port: " +   PORT)
@@ -25,6 +28,7 @@ app.use("/api/users", userRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes)
 app.use("/api/products", productRoute)
+// app.use("/api/payments", paymentRoutes)
 app.use((req,res, next)=>{
     next (new AppError("Requested route not found", 404))
 })
