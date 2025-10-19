@@ -6,7 +6,7 @@ const Vasco=()=>{
       <div> 
         <h1 className="font-bold text-lg text-gray-800 mb-2 mt-[1rem]">USEFUL LINKS</h1>
       <ul>
-        <li><a href="#">Home</a></li>
+        <li><a href="">Home</a></li>
         <li><a href="">Contacts</a></li>
         <li><a href="">About</a></li>
 
