@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchF } from "../utils/fetch";
 import { Header } from "../components/Header";
+import Footer from "../components/Footer";
 import ProductCard from "../components/Product";
 
 const ProductsPage = () => {
@@ -30,7 +31,7 @@ const ProductsPage = () => {
     }
 
     try {
-        console.log(user.ID, product.ID)
+      console.log(user.ID, product.ID);
       await fetchF("cart", {
         method: "POST",
         body: JSON.stringify({ userId: user.ID, productId: product.ID, quantity: 1 }),
@@ -41,25 +42,46 @@ const ProductsPage = () => {
     }
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading products...</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading products...
+      </div>
+    );
+
   if (error)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-red-600">
         <p>{error}</p>
-        <button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+        >
           Retry
         </button>
       </div>
     );
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto mt-6">
-        {products.map((product) => (
-          <ProductCard key={product.ID} product={product} onAddToCart={handleAddToCart} />
-        ))}
-      </div>
+
+      <main className="flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto mt-6">
+          {products.map((product) => (
+            <ProductCard
+              key={product.ID}
+              product={product}
+              onAddToCart={handleAddToCart}
+            />
+          ))}
+        </div>
+      </main>
+
+      {/* ✅ Footer added */}
+      <footer className="mt-auto w-full">
+        <Footer />
+      </footer>
     </div>
   );
 };
